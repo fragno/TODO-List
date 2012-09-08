@@ -1,0 +1,38 @@
+* top level
+** the second level 
+*** the third level
+somthing to write
+
+My favorite scenes are(in the order)
+1. The attack of the Rohirrim
+2. Eowyn's fight with
+3. dsa[1]
+4. dsaf[fn:orghome]
+
+|   | <6>    |
+|---+--------|
+| 1 | one    |
+| 2 | two    |
+| 3 | this is a long chunk of text |
+| 4 | four   |
+
+
+| a | b |           |
+|---+---+-----------|
+| 3 | 4 |        5. |
+| 6 | 8 |       10. |
+| 1 | 2 | 2.2360680 |    
+   #+TBLFM: $3=($1^2 + $2^2)^0.5    
+    
+   [[http://www.baidu.com][baidu]]    
+    
+* TODO write org mode document    <2012-08-16 Thu>
+  DEADLINE: <2012-10-12 Fri> SCHEDULED: <2012-08-15 Wed>
+
+    
+[1] The Link is    
+[fn:orghome] The Link is    
+  
+    
+    
+    
