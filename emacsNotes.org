@@ -1,5 +1,30 @@
+#+STARTUP: indent
+#+TITLE:     emacsNotes.org
+#+AUTHOR:    Fengnan.xu
+#+EMAIL:     kris.df470ea@m.yinxiang.com
+#+DATE:      2012-09-10 Mon
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+
+
 * Concepts
-* Shortcuts Keys
+* Shortcut
+** org-mode
+*** Export
+| ShortCuts | 作用 |
+| C-c C-e   | 导出各种类型的文件 |
+*** TODOList
+| ShortCuts | 作用         |
+|-----------+--------------|
+| C-c C-t   | 循环切换状态 |
 * Plugins
 * Others
 1. /xieti/
@@ -10,3 +35,4 @@
 6. E=mC^2
 7. =git=
 
+   

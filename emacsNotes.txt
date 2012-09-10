@@ -1,14 +1,18 @@
-                              emacsNotes
-                              ==========
+                            emacsNotes.org
+                            ==============
 
 Author: Fengnan.xu <kris.df470ea@m.yinxiang.com>
-Date: 2012-09-08 11:02:58 CST
+Date: 2012-09-10 Mon
+
 
 
 Table of Contents
 =================
 1 Concepts 
-2 Shortcuts Keys 
+2 Shortcut 
+    2.1 org-mode 
+        2.1.1 Export 
+        2.1.2 TODOList 
 3 Plugins 
 4 Others 
 
@@ -16,8 +20,22 @@ Table of Contents
 1 Concepts 
 ~~~~~~~~~~~
 
-2 Shortcuts Keys 
-~~~~~~~~~~~~~~~~~
+2 Shortcut 
+~~~~~~~~~~~
+
+2.1 org-mode 
+=============
+
+2.1.1 Export 
+-------------
+  ShortCuts   作用  
+  C-c C-e     导出各种类型的文件  
+
+2.1.2 TODOList 
+---------------
+  ShortCuts   作用          
+ -----------+--------------
+  C-c C-t     循环切换状态  
 
 3 Plugins 
 ~~~~~~~~~~
@@ -32,3 +50,4 @@ Table of Contents
 6. E=mC^2
 7. `git'
 
+   
