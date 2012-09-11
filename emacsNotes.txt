@@ -1,53 +1,64 @@
                             emacsNotes.org
                             ==============
 
-Author: Fengnan.xu <kris.df470ea@m.yinxiang.com>
+Author: Fengnan.xu
 Date: 2012-09-10 Mon
 
 
 
 Table of Contents
 =================
-1 Concepts 
-2 Shortcut 
-    2.1 org-mode 
-        2.1.1 Export 
-        2.1.2 TODOList 
-3 Plugins 
-4 Others 
+1 Concepts
+2 Shortcut
+    2.1 org-mode
+        2.1.1 Export
+        2.1.2 TODOList
+        2.1.3 Else
+3 Plugins
+4 Others
 
 
 1 Concepts 
-~~~~~~~~~~~
+-----------
 
 2 Shortcut 
-~~~~~~~~~~~
+-----------
 
 2.1 org-mode 
 =============
 
 2.1.1 Export 
--------------
-  ShortCuts   作用  
+~~~~~~~~~~~~~
+  ShortCuts   作用                
+ -----------+--------------------
   C-c C-e     导出各种类型的文件  
 
 2.1.2 TODOList 
----------------
+~~~~~~~~~~~~~~~
   ShortCuts   作用          
  -----------+--------------
   C-c C-t     循环切换状态  
 
+2.1.3 Else 
+~~~~~~~~~~~
+  ShortCuts      作用                    
+ --------------+------------------------
+  M-RET          插入一个同一级别的标题  
+  M-LEFT/TIGHT   将当前标题降级或升级    
+  M-S-UP/DOWN    将子树上下移动          
+  S-TAB          循环切换整个大纲的状态  
+
 3 Plugins 
-~~~~~~~~~~
+----------
 
 4 Others 
-~~~~~~~~~
+---------
 1. /xieti/
 2. *chuti*
 3. +shanchuxuan+
 4. _xiahuaxian_
 5. H_2 0
 6. E=mC^2
-7. `git'
+7. =git=
 
    

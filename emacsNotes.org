@@ -16,15 +16,33 @@
 
 
 * Concepts
-* Shortcut
+* Shortcuts
+** all-mode
+*** Editting
+| ShortCuts | 作用     |
+|-----------+----------|
+| C-u n ?   | 重复输出 |
+|           |          |
 ** org-mode
 *** Export
-| ShortCuts | 作用 |
+| ShortCuts | 作用               |
+|-----------+--------------------|
 | C-c C-e   | 导出各种类型的文件 |
+|           |                    |
+
 *** TODOList
 | ShortCuts | 作用         |
 |-----------+--------------|
 | C-c C-t   | 循环切换状态 |
+|           |              |
+*** Else
+| ShortCuts    | 作用                   |
+|--------------+------------------------|
+| M-RET        | 插入一个同一级别的标题 |
+| M-LEFT/TIGHT | 将当前标题降级或升级   |
+| M-S-UP/DOWN  | 将子树上下移动  |
+| S-TAB        | 循环切换整个大纲的状态 |
+|              |                        |
 * Plugins
 * Others
 1. /xieti/

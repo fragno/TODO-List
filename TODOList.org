@@ -2,6 +2,7 @@
 #+TAGS: @office(o) @home(h) @traffic(t)
 #+TAGS: computer(c) nocomputer(n) either(e)
 #+TAGS: immediately(i) wait(w) action(a)
+#+STYLE: <link rel="stylesheet" type="text/css" href="style/style.css" />
 
 * Idea List:
 * Task List:
@@ -11,4 +12,5 @@
    SCHEDULED: <2012-11-18 Sun>
    DEADLINE: <2012-09-08 Sat>
 
+** TODO 张家界之旅
 * Reminder:
