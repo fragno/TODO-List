@@ -6,6 +6,16 @@
 
 * Idea List:
 * Task List:
+** TODO 日报系统增加前一次提交内容的功能							  :@home:
+** DONE 日报系统别人登录后提交出现问题bug修复						  :@home:
+   CLOSED: [2012-09-12 星期三 13:54]
+   - CLOSING NOTE [2012-09-12 星期三 13:54] \\
+	 主要是SetCookie的问题，后来发现不需要SetCookie，所以就删除了该代码，程序正常
+** DONE 日报系统不允许未注册用户写进数据库功能添加					  :@home:
+   CLOSED: [2012-09-15 星期六 14:01]
+   - CLOSING NOTE [2012-09-15 星期六 14:01] \\
+	 增加判断用户是否是注册用户的语句，但是注册的时候是用email来表示唯一的，所以依然会存在bug
+ 
 * Project List:
 * SomeDay/Maybe List:
 ** TODO write the article about org-mode 					 :@home:computer:	 
