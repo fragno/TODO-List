@@ -1,0 +1,312 @@
+* Trie是什么
+  也许你已经见过一些存储东西效率非常高的树结构，例如二叉查找树。这里我们讲介绍另外一种树的变种，叫做trie。
+
+  --------------------------------------------------
+  旁白：trie这个名字来源于其用处——re *trie* val。其被一些人发音为“TRY”，而另外一些人将其发音为“TREE”。这里，我们将讨论TRIE的一种特殊实现，这和其他地方讨论的有些不同。
+  --------------------------------------------------
+
+  我们使用trie来存放那些具有键（用来区别数据），可能还有值（和键绑定在一起的另外的数据）的数据。
+
+  这里，我们将使用那些键是strings的数据。
+
+  例如，我们想要存放一组人的name/age对（这里我们只考虑name是单个字符串）。
+  
+  例举一些对：
+  | amy   | 56 |
+  | ann   | 15 |
+  | emma  | 30 |
+  | rob   | 27 |
+  | roger | 52 |
+
+  那么，现在我们如何在tire中存放name/value对呢？tire允许那些具有相同前缀的键共享相同的部分。另外，因为我们的键是名字，它们都是strings。
+
+  让我们以amy为例。我们构建一颗树，她的名字中的每个字符都是该树独立的节点。在她的名字的最后一个字符之下，还有一个节点（例如这里的y）。在最后一个节点，我们存放nul字符（\0）来表示名字的结束。最后一个节点也是一个存放amy的年龄的好地方。
+  .     <- level 0(root)
+  |
+  a     <- level 1
+  |
+  m     <- level 2
+  |
+  y     <- level 3
+  |
+  \0 56 <- level 4
+
+  注意到trie中的每一层都保存了字符串amy中的某一个特定的字符。trie中字符串键的第一个字符总是在level 1，第二个字符在level 2，以此类推。
+
+  现在我们来增加ann， 我们做同样的事情；然而，由于我们已经在level 1中存放了字符a，所以我们不需要再次存放它，我们仅仅需要重用a的节点作为第一个字符。在a（level 1）之下，只有一个m的字符。而ann的第二个字符是n，所以，我们将增加一个新的分支来表示ann的剩余部分，如下：
+                      .
+                      |
+                      a
+                    /   \
+                   m     n
+                   |     |
+                   y     n
+                   |     |
+                 \0 56 \0 15
+
+  --------------------------------------------------
+  注意：ann的数据（15岁）也存放在她的最后一个节点中
+  --------------------------------------------------
+
+  现在让我们来增加emma。记住e是第一个字符应该在level 1.因为level 1没有e，所以我们将添加e。然后我们再添加emma余下的所有字符。第一m字符将成为e的孩子，接下来的m就是第一个m的孩子，如下：
+                      
+                                .                           
+                      /         |        
+                      a         e        
+                    /   \       |
+                   m     n      m
+                   |     |      |
+                   y     n      m
+                   |     |      |
+                 \0 56 \0 15    a
+                                |
+                              \0 30
+
+  现在我们来添加余下的两个姓名，rob和roger。如下：						                      
+                                .                           
+                      /         |        \
+                      a         e        r
+                    /   \       |        |
+                   m     n      m        o
+                   |     |      |      /    \
+                   y     n      m     b      g
+                   |     |      |     |      |
+                 \0 56 \0 15    a   \0 27    e
+                                |            |
+                              \0 30          r
+                                             | 
+                                           \0 52
+
+  因为每个数据的键都是字符序列，有时我们就将序列当做数据的keys（复数）。例如，ann的数据就是a，n，n（按顺序）。
+
+  为了更好的明白trie是如何工作的，必须回答如下的问题：
+  + 如果着增加anne，其年龄是67，那么trie树将变成什么样？那么增加23岁的ro呢？
+  + 如果我们以不同的顺序添加rob，ann，emma，roger和amy，结果会有什么不同吗？
+  + 这是二叉树、三叉树还是其他的什么？换句话说，每个节点最多有多少孩子？
+
+* Trie操作
+  这里是我们关心的trie的一些操作。对trie的特殊的使用可能会有特殊的操作
+  + Add：
+	我们已经给出了adding的例子
+
+  + IsMember：
+	明确数据是否是trie树中的某一特定字符串。
+	例如，IsMember(trie, "amy")将返回一个true值，IsMember(trie, "anna")将返回一个false值。
+	我们也可以想象在找到匹配的键后对其值进行一定的处理。
+
+  + Remove：
+	从trie中删除东西，例如它的键。
+
+  --------------------------------------------------
+  我们也许希望增加更多的操作，这依赖于我们如何使用trie。
+
+  因为我们的trie利用字符串键来保存数据，哪些操作需要key和value，哪些只要keys？
+
+* IsMember 算法
+  记住，trie是一种特殊的树。因为trie以keys来组织其数据（如上所述），用它来找某个特定的key是否存在特别简单。
+
+  寻找一个key可以使用迭代（循环）。
+
+  这里是该算法的一个概要。其查询一个特定的trie，然后决定是否特定字符串key的数据存在。
+  
+  *IsMember( /trie, key/ )* [iterative]
+  
+  1. 寻找匹配key中第一个字符的top level的节点
+  2. if none，
+	     return false
+	 else,
+  3. 如果匹配的字符是"\0"
+	     return true
+	 else,
+  4. 行进到匹配该字符的subtrie
+  5. 继续key*中的下一个字符的匹配
+  6. 跳转到1
+
+  --------------------------------------------------
+  *\** I.e.，新的搜索key编程不包含之前的第一个字符的key
+  --------------------------------------------------
+
+* Trie 实现
+  现在我们来考虑如何用C来实现一个name/age对的trie。
+
+  如同往常一样，我们将数据结构放在其自己的模块中，通过编写新的源代码文件trie.h和trie.c。
+
+  需要添加如下的操作函数：
+  + TrieAdd()
+  + TrieIsMember()
+  + TrieRemove()
+
+  而且，我们还需要添加额外的setup和cleanup函数
+  + TrieCreate()
+  + TrieDestroy()
+
+  现在，在我们思索这些trie函数的细节之前，我们必须决定什么？
+
+* trie数据类型的组织
+  我们将考虑trie的数据类型，以及如何在interface(见trie.h)和implementation(见trie.c)之间使用ADTs和CDTs分解他们。
+
+  首先我们考虑值的类型。因为我们的值是ages，所以我们定义如下：
+  #+begin_src c++
+  typedef int trieValueT;
+  #+end_src
+
+  因为值的类型是使用trie的用户需要知道的，所以，我们将其定义在(trie.h)。
+
+  接下来，我们将决定keys将总是strings。然而，我们将不构造由strings和values组成的元素。原因是我们不将整个string keys都存放在trie的节点中。记住，我们只在节点中存放string key中的单独的字符。
+
+  因此，节点的类型如下：
+  #+begin_src c++
+  typedef struct trieNodeTag {
+    char key;
+    trieValueT value;
+    ...
+  } trieNodeT;
+  #+end_src 
+
+  因为其只是实现的细节，所以将被存放在trie.c中。
+
+  --------------------------------------------------
+  注意：我们可以将trie做的更加普世些，通过考虑允许trie来处理那些key是array的任何类型，例如，trings的array，而不是字符的array。对于其他类型的arrays，我们将决定如何来表示end-of-key，我们现在是使用nu字符("\0")。
+  
+  到现在为止，我们只是硬编码，在每一个节点中使用key的字符，和每个数据相关整个key中使用string(例如，字符array)。
+  --------------------------------------------------
+
+  现在我们需要完成节点的类型。我们如何构造一棵树，其节点可以有几个孩子？一种方法让节点的孩子成为linked-list的节点。
+
+  *结 构*
+
+  如果我们将同一层兄弟姐妹看做linked-list，那么之前的trie可以如下结构：
+  
+           |
+           a ---------- e ----------r
+           |            |           |
+           m ---- n     m           o
+           |      |     |           |
+           y      n     m           b ---- g
+           |      |     |           |      |
+         \0 56  \0 15   a         \0 27    e
+                        |                  |
+                      \0 30                r
+                                           | 
+                                         \0 52
+  首先，给定level的节点组成一个linked-list（例如，level 1的a，e，r）。注意，每一层可能有多个linked-list。例如，在level 2，m和n形成他们自己的list，而且他们和a也是相连的。同样，m（其和e在第一层也是相连的）也形成了自己的linked-list。最后，o，和r相连，也形成了自己的list。
+
+  因此，每个节点都和同一层的下一个节点相连，同时和它的孩子们相连。为了实现这个数据结构，我们在一个node中需要两个指针，如下：
+  #+begin_src c++
+  typedef struct trieNodeTag {
+    char key;
+    trieValueT value;
+    struct trieNodeTag *next， *children；
+  } trieNodeT;
+  #+end_src
+
+  --------------------------------------------------
+  注意：该节点的一部分值是没有被使用的，因为我们只存放value当节点是'\0'的时候。如果值是很大的东西，我们的设计应该更加巧妙一些
+  --------------------------------------------------
+
+  现在唯一剩下的类型就是如何知道trie的轨迹。基于我们选择的trie结构的实现，我们将需要一个top level的第一个节点的指针。
+
+  因为该指针必须和trie的实现相关，所以我们将其放到具体的类型中：
+  #+begin_src c++
+  typedef struct trieCDT {
+    trieNodeT *root;
+  } trieCDT;
+  #+end_src
+
+  在接口中，我们必须首先填充abstract type：
+  #+begin_src c++
+  typedef struct trieCDT *trieADT;
+  #+end_src
+
+  最后，我们有如下结构：
+  #+begin_src c++
+  trie.h                              trie.c
+  ------                              ------
+                                      #include "trie.h"
+
+  typedef int trieValueT;             typedef struct trieNodeTag {
+                                        char key;
+                                        trieValueT value;
+                                        struct trieNodeTag *next,
+                                                           *children;
+                                      } trieNodeT;
+  
+  typedef struct trieCDT              typedef struct trieCDT {
+          *trieADT;	                    trieNodeT *root;
+                                      } trieCDT;  
+  #+end_src
+
+* 使用trie
+  现在我们已经决定了trie的数据类型，现在我们可以想象trie如何工作：
+  #+begin_src c++
+  trieADT trie;
+  
+  trie = TrieCreate();
+
+  TrieAdd(trie, "amy", 56);
+  TrieAdd(trie, "ann", 15);
+
+  if( TrieIsMember(trie, "amy"))
+    ...
+  #+end_src
+
+  当某些人需要trie，他们定义一个trieADT变量，然后调用TrieCreate()。
+
+  --------------------------------------------------
+  注意：因为我们不将整个字符串keys和values放在一起存放，所以你可以分别传入key和value来实现TrieAdd()
+  --------------------------------------------------
+
+* 实现trie函数
+  现在我们来考虑实现TrieIsMember函数的原型：
+  #+begin_src c++
+  int TrieIsMember(trieADT trie, char keys[]);
+  #+end_src
+  其必须有两个参数，一个是trie树，一个是string key（例如keys的字符序列）。另外其有一个返回类型true或者false。
+  
+  如下是我们所述的算法的实现：
+  #+begin_src c++
+  int TrieIsMember(trieADT trie, char keys[])
+{
+  /* Start at the top level. */
+  trieNodeT *level = trie->root;
+
+  /* Start at beginning of key. */
+  int i = 0;
+
+  for (;;) {
+    trieNodeT *found = NULL;
+    trieNodeT *curr;
+
+    for (curr = level; curr != NULL; curr = curr->next) {
+      /*
+       * Want a node at this level to match
+       * the current character in the key.
+       */
+      if (curr->key == keys[i]) {
+        found = curr;
+        break;
+      }
+    }
+
+    /*
+     * If either no nodes at this level or none
+     * with next character in key, then key not
+     * present.
+     */
+    if (found == NULL)
+      return 0;
+
+    /* If we matched end of key, it's there! */
+    if (keys[i] == '\0')
+      return 1;
+
+    /* Go to next level. */
+    level = found->children;
+
+    /* Advance in string key. */
+    i++;
+  }
+}
+  #+end_src
+
+  其余的函数也要实现

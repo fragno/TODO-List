@@ -1,0 +1,103 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file d:/My Documents/GitHub/TODO-List/trie.org
+
+* trie数据类型的组织
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2012-09-28 星期五 22:46
+  :ARCHIVE_FILE: d:/My Documents/GitHub/TODO-List/trie.org
+  :ARCHIVE_CATEGORY: trie
+  :END:
+  我们将考虑trie的数据类型，以及如何在interface(见trie.h)和implementation(见trie.c)之间使用ADTs和CDTs分解他们。
+
+  首先我们考虑值的类型。因为我们的值是ages，所以我们定义如下：
+  #+begin_src 
+  typedef int trieValueT;
+  #+end_src
+
+  因为值的类型是使用trie的用户需要知道的，所以，我们将其定义在(trie.h)。
+
+  接下来，我们将决定keys将总是strings。然而，我们将不构造由strings和values组成的元素。原因是我们不将整个string keys都存放在trie的节点中。记住，我们只在节点中存放string key中的单独的字符。
+
+  因此，节点的类型如下：
+  #+begin_src 
+  typedef struct trieNodeTag {
+    char key;
+    trieValueT value;
+    ...
+  } trieNodeT;
+  #+end_src
+
+  因为其只是实现的细节，所以将被存放在trie.c中。
+
+  --------------------------------------------------
+  注意：我们可以将trie做的更加普世些，通过考虑允许trie来处理那些key是array的任何类型，例如，trings的array，而不是字符的array。对于其他类型的arrays，我们将决定如何来表示end-of-key，我们现在是使用nu字符("\0")。
+  
+  到现在为止，我们只是硬编码，在每一个节点中使用key的字符，和每个数据相关整个key中使用string(例如，字符array)。
+  --------------------------------------------------
+
+  现在我们需要完成节点的类型。我们如何构造一棵树，其节点可以有几个孩子？一种方法让节点的孩子成为linked-list的节点。
+
+  *结 构*
+
+  如果我们将同一层兄弟姐妹看做linked-list，那么之前的trie可以如下结构：
+  
+           |
+           a ---------- e ----------r
+           |            |           |
+           m ---- n     m           o
+           |      |     |           |
+           y      n     m           b ---- g
+           |      |     |           |      |
+         \0 56  \0 15   a         \0 27    e
+                        |                  |
+                      \0 30                r
+                                           | 
+                                         \0 52
+  首先，给定level的节点组成一个linked-list（例如，level 1的a，e，r）。注意，每一层可能有多个linked-list。例如，在level 2，m和n形成他们自己的list，而且他们和a也是相连的。同样，m（其和e在第一层也是相连的）也形成了自己的linked-list。最后，o，和r相连，也形成了自己的list。
+
+  因此，每个节点都和同一层的下一个节点相连，同时和它的孩子们相连。为了实现这个数据结构，我们在一个node中需要两个指针，如下：
+  #+begin_src 
+  typedef struct trieNodeTag {
+    char key;
+    trieValueT value;
+    struct trieNodeTag *next， *children；
+  } trieNodeT;
+  #+end_src
+
+  --------------------------------------------------
+  注意：该节点的一部分值是没有被使用的，因为我们只存放value当节点是'\0'的时候。如果值是很大的东西，我们的设计应该更加巧妙一些
+  --------------------------------------------------
+
+  现在唯一剩下的类型就是如何知道trie的轨迹。基于我们选择的trie结构的实现，我们将需要一个top level的第一个节点的指针。
+
+  因为该指针必须和trie的实现相关，所以我们将其放到具体的类型中：
+  #+begin_src 
+  typedef struct trieCDT {
+    trieNodeT *root;
+  } trieCDT;
+  #+end_src
+
+  在接口中，我们必须首先填充abstract type：
+  #+begin_src 
+  typedef struct trieCDT *trieADT;
+  #+end_src
+
+  最后，我们有如下结构：
+  trie.h                              trie.c
+  ------                              ------
+                                      #include "trie.h"
+
+  typedef int trieValueT;             typedef struct trieNodeTag {
+                                        char key;
+                                        trieValueT value;
+                                        struct trieNodeTag *next,
+                                                           *children;
+                                      } trieNodeT;
+  
+  typedef struct trieCDT              typedef struct trieCDT {
+          *trieADT;	                    trieNodeT *root;
+                                      } trieCDT;  
+
+

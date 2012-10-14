@@ -5,6 +5,7 @@
 #+STYLE: <link rel="stylesheet" type="text/css" href="style/style.css" />
 
 * Idea List:
+** TODO C/C++端口开启与关闭，发送程序
 * Task List:
 ** TODO 日报系统增加前一次提交内容的功能							  :@home:
 ** DONE 日报系统别人登录后提交出现问题bug修复						  :@home:
